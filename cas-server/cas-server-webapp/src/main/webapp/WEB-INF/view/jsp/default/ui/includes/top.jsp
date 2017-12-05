@@ -43,9 +43,11 @@
   <![endif]-->
 </head>
 <body id="cas">
-  <div id="container">
       <header>
-        <a id="logo" href="http://www.apereo.org" title="<spring:message code="logo.title" />">Apereo</a>
-        <h1>Central Authentication Service (CAS)</h1>
+        <h1>中国-东盟标准计量质量特检认证认可信息服务平台</h1>
+        <!-- <a id="logo" href="http://www.apereo.org" title="<spring:message code="logo.title" />">Apereo</a>
+        <h1>Central Authentication Service (CAS)</h1> -->
       </header>
+  <div id="container">  
+	<h2 class="form-min-heading"><span>后台管理系统</span></h2>
       <div id="content">
