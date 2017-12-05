@@ -29,6 +29,7 @@ hgroup, menu, nav, section, summary, time, mark, audio, video {
     vertical-align: baseline;
     background: transparent;
 }
+*:focus {outline: none;} 
 body { line-height: 1; }
 nav ul { list-style: none; }
 blockquote, q { quotes: none; }
@@ -122,12 +123,20 @@ header h1 {
 	zoom: 1; 
 }
 
+.login-form{
+	width:580px;
+	height:500px;
+	position: absolute;
+	top:50%;
+	margin-top:-250px;
+}
+
 .form-min-heading {
     font-size: 34px;
     letter-spacing: 3px;
     margin: 0px;
     color: #fff;
-    margin: 150px 0 50px 0;
+    margin: 45px 0;
     font-weight: normal;
 }
 
@@ -140,7 +149,7 @@ header h1 {
     text-align: left;
     width: 340px;
     padding: 50px;
-    margin: 0 auto 30px;
+    margin: 0 auto 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
@@ -199,15 +208,14 @@ header h1 {
 
 
 #msg {
-    padding: 10px;
-    margin-top:20px;
-    margin-bottom: 40px;
+    padding: 5px;
+    margin-top:10px;
+    margin-bottom: 20px;
 }
 
 #msg.errors {
     border: 1px dotted #BB0000;
     color: #BB0000;
-    padding-left: 100px;
     background: url(../images/error.png) no-repeat 20px center;
 }
 
@@ -329,7 +337,7 @@ footer {
     right: 0;
     color: #596d7e;
     font-size: 15px;
-    bottom: 30px;
+    bottom: 10px;
     text-align: center;
 }
 

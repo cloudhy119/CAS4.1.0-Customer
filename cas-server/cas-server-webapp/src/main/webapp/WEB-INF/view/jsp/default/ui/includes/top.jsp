@@ -49,5 +49,6 @@
         <h1>Central Authentication Service (CAS)</h1> -->
       </header>
   <div id="container">  
+  	<div class="login-form">
 	<h2 class="form-min-heading"><span>后台管理系统</span></h2>
       <div id="content">
