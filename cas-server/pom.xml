@@ -547,10 +547,10 @@
 			    <version>${version.mysql}</version>
 			</dependency>
 			<dependency>
-			    <groupId>com.microsoft.sqlserver</groupId>
-			    <artifactId>mssql-jdbc</artifactId>
-			    <version>6.2.2.jre8</version> 
-			    <scope>test</scope>
+				<groupId>net.sourceforge.jtds</groupId>
+				<artifactId>jtds</artifactId>
+				<version>${version.mssql}</version>
+				<scope>runtime</scope>
 			</dependency>
 			<!-- druid -->
 			<dependency>
@@ -1212,7 +1212,7 @@
                 <artifactId>hazelcast</artifactId>
                 <version>${hazelcast.version}</version>
             </dependency>
-
+			
         </dependencies>
     </dependencyManagement>
 
@@ -1369,6 +1369,7 @@
         <!-- Dependency Versions -->
         <version.druid>1.0.16</version.druid>
 		<version.mysql>5.1.34</version.mysql>
+		<version.mssql>1.3.1</version.mssql>
         <spring.webflow.version>2.4.1.RELEASE</spring.webflow.version>
         <spring.version>4.1.6.RELEASE</spring.version>
         <spring.webflow.client.repo.version>1.0.0</spring.webflow.client.repo.version>

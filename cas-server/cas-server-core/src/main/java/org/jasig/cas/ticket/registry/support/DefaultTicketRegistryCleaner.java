@@ -93,7 +93,7 @@ public final class DefaultTicketRegistryCleaner implements RegistryCleaner {
     @Override
     public Collection<Ticket> clean() {
         try {
-            logger.info("Beginning ticket cleanup.");
+            logger.debug("Beginning ticket cleanup.");
             logger.debug("Attempting to acquire ticket cleanup lock.");
             if (!this.lock.acquire()) {
                 logger.info("Could not obtain lock.  Aborting cleanup.");
@@ -109,7 +109,7 @@ public final class DefaultTicketRegistryCleaner implements RegistryCleaner {
                 }
             });
 
-            logger.info("{} expired tickets found to be removed.", ticketsToRemove.size());
+            logger.debug("{} expired tickets found to be removed.", ticketsToRemove.size());
 
             try {
                 for (final Ticket ticket : ticketsToRemove) {
@@ -131,7 +131,7 @@ public final class DefaultTicketRegistryCleaner implements RegistryCleaner {
         } finally {
             logger.debug("Releasing ticket cleanup lock.");
             this.lock.release();
-            logger.info("Finished ticket cleanup.");
+            logger.debug("Finished ticket cleanup.");
         }
     }
 

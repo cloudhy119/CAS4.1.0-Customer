@@ -36,22 +36,22 @@ public class CustomStubPersonAttributeDao extends StubPersonAttributeDao {
 	@Override
     public IPersonAttributes getPerson(String uid) {
 		Map<String, List<Object>> attributes = new HashMap<String, List<Object>>();
-		String sql = appInfoSQL;
-		try {
-			List<Map<String, Object>> values = dbUtil.getJdbcTemplate().queryForList(sql, uid);
-			if(values != null && !values.isEmpty()) {
-				for(Map<String, Object> value : values) {
-					String appCode = (String) value.get("app_code");
-					String appAccount = (String) value.get("app_account");
-					/*
-					 * 这里必须注意！appCode不能为数字，必须以字母开头，否则客户端解析会报错！！！！
-					 */
-					attributes.put(appCode, Collections.singletonList((Object)appAccount));
-				}
-			}
-		} catch (DataAccessException e) {
-			LOGGER.error("", e);
-		}
+//		String sql = appInfoSQL;
+//		try {
+//			List<Map<String, Object>> values = dbUtil.getJdbcTemplate().queryForList(sql, uid);
+//			if(values != null && !values.isEmpty()) {
+//				for(Map<String, Object> value : values) {
+//					String appCode = (String) value.get("app_code");
+//					String appAccount = (String) value.get("app_account");
+//					/*
+//					 * 这里必须注意！appCode不能为数字，必须以字母开头，否则客户端解析会报错！！！！
+//					 */
+//					attributes.put(appCode, Collections.singletonList((Object)appAccount));
+//				}
+//			}
+//		} catch (DataAccessException e) {
+//			LOGGER.error("", e);
+//		}
 		return new AttributeNamedPersonImpl(attributes);
     }
 

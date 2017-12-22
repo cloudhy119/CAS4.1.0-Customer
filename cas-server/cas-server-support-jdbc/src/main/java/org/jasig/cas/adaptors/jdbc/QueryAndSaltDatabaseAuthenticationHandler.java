@@ -19,7 +19,6 @@
 package org.jasig.cas.adaptors.jdbc;
 
 import java.security.GeneralSecurityException;
-import java.util.Date;
 import java.util.Map;
 
 import javax.security.auth.login.AccountNotFoundException;
@@ -27,14 +26,10 @@ import javax.security.auth.login.FailedLoginException;
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 
-import org.apache.shiro.crypto.hash.ConfigurableHashService;
-import org.apache.shiro.crypto.hash.DefaultHashService;
-import org.apache.shiro.crypto.hash.HashRequest;
 import org.jasig.cas.authentication.AccountDisabledException;
 import org.jasig.cas.authentication.HandlerResult;
 import org.jasig.cas.authentication.PreventedException;
 import org.jasig.cas.authentication.UsernamePasswordCredential;
-import org.jasig.cas.authentication.principal.SimplePrincipal;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
@@ -51,16 +46,15 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
  * @since 3.0
  */
 public class QueryAndSaltDatabaseAuthenticationHandler extends AbstractJdbcUsernamePasswordAuthenticationHandler {
-
     private static final String DEFAULT_PASSWORD_FIELD = "password";
-    private static final String DEFAULT_SALT_FIELD = "salt";
+//    private static final String DEFAULT_SALT_FIELD = "salt";
     private static final long DEFAULT_ITERATIONS = 1024;
 
     /**
      * The Algorithm name.
      */
-    @NotNull
-    protected final String algorithmName;
+//    @NotNull
+//    protected final String algorithmName;
 
     /**
      * The Sql statement to execute.
@@ -71,8 +65,8 @@ public class QueryAndSaltDatabaseAuthenticationHandler extends AbstractJdbcUsern
     /**
      * The Sql statement to execute.
      */
-    @NotNull
-    protected final String updateSql;
+//    @NotNull
+//    protected final String updateSql;
 
     /**
      * The Password field name.
@@ -83,8 +77,8 @@ public class QueryAndSaltDatabaseAuthenticationHandler extends AbstractJdbcUsern
     /**
      * The Salt field name.
      */
-    @NotNull
-    protected String saltFieldName = DEFAULT_SALT_FIELD;
+//    @NotNull
+//    protected String saltFieldName = DEFAULT_SALT_FIELD;
 
     /**
      * The number of iterations. Defaults to 0.
@@ -93,15 +87,10 @@ public class QueryAndSaltDatabaseAuthenticationHandler extends AbstractJdbcUsern
 
 
     public QueryAndSaltDatabaseAuthenticationHandler(final DataSource dataSource,
-                                                       final String sql,
-                                                       final String updateSql,
-                                                       final String algorithmName) {
+                                                       final String sql) {
         super();
         setDataSource(dataSource);
         this.sql = sql;
-        this.updateSql = updateSql;
-
-        this.algorithmName = algorithmName;
     }
 
     /** {@inheritDoc} */
@@ -112,25 +101,10 @@ public class QueryAndSaltDatabaseAuthenticationHandler extends AbstractJdbcUsern
         final String encodedPsw = this.getPasswordEncoder().encode(credential.getPassword());
         try {
             final Map<String, Object> values = getJdbcTemplate().queryForMap(this.sql, username);
-            //检查用户状态
-            if(!values.containsKey("status")){
-                throw new AccountDisabledException();
-            }
-            final String status = values.get("status").toString();
-            if ("00".equals(status)) {
-                //禁用
-                throw new AccountDisabledException();
-            }else if("02".equals(status)){
-                //删除
-                throw new AccountNotFoundException();
-            }
             //效验密码
-            final String digestedPassword = digestEncodedPassword(encodedPsw, values);
-            if (!values.get(this.passwordFieldName).equals(digestedPassword)) {
-                throw new FailedLoginException("Password does not match value on record.");
+            if(!validatePassword(encodedPsw, values.get(this.passwordFieldName).toString())) {
+            	throw new FailedLoginException("Password does not match value on record.");
             }
-            int flag = getJdbcTemplate().update(updateSql, new Date(), username);
-            logger.debug("更新{}最后登录时间：{}", username, flag);
         } catch (final IncorrectResultSizeDataAccessException e) {
             if (e.getActualSize() == 0) {
                 throw new AccountNotFoundException(username + " not found with SQL query");
@@ -143,31 +117,18 @@ public class QueryAndSaltDatabaseAuthenticationHandler extends AbstractJdbcUsern
         return createHandlerResult(credential, this.principalFactory.createPrincipal(username), null);
     }
 
-    /**
-     * Digest encoded password.
-     *
-     * @param encodedPassword the encoded password
-     * @param values the values retrieved from database
-     * @return the digested password
-     */
-    protected String digestEncodedPassword(final String encodedPassword, final Map<String, Object> values) {
-        final ConfigurableHashService hashService = new DefaultHashService();
-        //配置
-        hashService.setHashAlgorithmName(this.algorithmName);
-        hashService.setHashIterations(numberOfIterations.intValue());
-        if (!values.containsKey(this.saltFieldName)) {
-            throw new RuntimeException("Specified field name for salt does not exist in the results");
-        }
-
-        final String dynaSalt = values.get(this.saltFieldName).toString();
-        final HashRequest request = new HashRequest.Builder()
-                                    .setSalt(dynaSalt)
-                                    .setSource(encodedPassword)
-                                    .build();
-        String hashPwd = hashService.computeHash(request).toHex();
-        logger.info("digestEncodedPassword:" + hashPwd);
-        return hashPwd;
-    }
+	/**
+	 * 验证密码
+	 * @param plainPassword 明文密码
+	 * @param password 密文密码
+	 * @return 验证成功返回true
+	 */
+	public static boolean validatePassword(String plainPassword, String password) {
+		String plain = Encodes.unescapeHtml(plainPassword);
+		byte[] salt = Encodes.decodeHex(password.substring(0,16));
+		byte[] hashPassword = Digests.sha1(plain.getBytes(), salt, (int) DEFAULT_ITERATIONS);
+		return password.equals(Encodes.encodeHex(salt)+Encodes.encodeHex(hashPassword));
+	}
 
     /**
      * Sets password field name. Default is {@link #DEFAULT_PASSWORD_FIELD}.
@@ -183,9 +144,9 @@ public class QueryAndSaltDatabaseAuthenticationHandler extends AbstractJdbcUsern
      *
      * @param saltFieldName the password field name
      */
-    public final void setSaltFieldName(final String saltFieldName) {
-        this.saltFieldName = saltFieldName;
-    }
+//    public final void setSaltFieldName(final String saltFieldName) {
+//        this.saltFieldName = saltFieldName;
+//    }
 
     /**
      * Sets number of iterations. Default is 0.

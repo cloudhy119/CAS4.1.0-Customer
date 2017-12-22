@@ -115,14 +115,16 @@
 	    <!-- 查询账号密码 -->
    		<constructor-arg name="sql" value="${jdbc.selectSQL}" />
    		<!-- 更新最后登录时间 -->
-	    <constructor-arg name="updateSql" value="${jdbc.updateSQL}" />
 	    <!-- 加密算法 -->
+	    <!--  
+	    <constructor-arg name="updateSql" value="${jdbc.updateSQL}" />
 	    <constructor-arg name="algorithmName" value="${algorithmName}"/>
+	    -->
 	    <property name="numberOfIterations" value="${numberOfIterations}" />
 	    <!-- 数据库中密码字段 -->
 	    <property name="passwordFieldName" value="${passwordFieldName}" />
-	    <!-- 数据库中salt字段 -->
-	    <property name="saltFieldName" value="${saltFieldName}" />
+	    <!-- 数据库中salt字段
+	    <property name="saltFieldName" value="${saltFieldName}" /> -->
 	</bean>
 	<!-- 数据源配置, 使用druid连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" 

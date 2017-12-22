@@ -154,7 +154,7 @@ public final class DefaultServicesManagerImpl implements ReloadableServicesManag
 
     @Override
     public void reload() {
-        LOGGER.info("Reloading registered services.");
+        LOGGER.debug("Reloading registered services.");
         load();
     }
 
@@ -171,7 +171,7 @@ public final class DefaultServicesManagerImpl implements ReloadableServicesManag
         }
 
         this.services = localServices;
-        LOGGER.info("Loaded {} services.", this.services.size());
+        LOGGER.debug("Loaded {} services.", this.services.size());
         
     }
 }
