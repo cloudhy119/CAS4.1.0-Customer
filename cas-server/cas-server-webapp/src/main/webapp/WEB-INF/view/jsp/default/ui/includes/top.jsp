@@ -49,5 +49,5 @@
       </header>
   <div id="container">  
   	<div class="login-form">
-	<h2 class="form-min-heading"><span>后台管理系统</span></h2>
+	<h2 class="form-min-heading"><span>系统登录</span></h2>
       <div id="content">
