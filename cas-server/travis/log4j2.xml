@@ -36,7 +36,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="org.slf4j.impl" level="trace">
+        <Logger name="org.slf4j.impl" level="warn">
             <AppenderRef ref="slf4j"/>
         </Logger>
         <Root level="error">

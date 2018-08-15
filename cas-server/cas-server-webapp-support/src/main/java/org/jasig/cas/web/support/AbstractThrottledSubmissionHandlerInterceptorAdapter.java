@@ -103,6 +103,7 @@ public abstract class AbstractThrottledSubmissionHandlerInterceptorAdapter exten
 
         // User successfully authenticated
         if (SUCCESSFUL_AUTHENTICATION_EVENT.equals(context.getCurrentEvent().getId())) {
+            removeFailureRecord(request);
             return;
         }
 
@@ -156,6 +157,8 @@ public abstract class AbstractThrottledSubmissionHandlerInterceptorAdapter exten
      * @param request the request
      */
     protected abstract void recordSubmissionFailure(HttpServletRequest request);
+
+    protected abstract void removeFailureRecord(HttpServletRequest request);
 
     /**
      * Determine whether threshold has been exceeded.

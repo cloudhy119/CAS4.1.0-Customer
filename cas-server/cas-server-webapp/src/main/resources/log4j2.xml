@@ -47,7 +47,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="org.jasig" level="info" additivity="false">
+        <Logger name="org.jasig" level="warn" additivity="false">
             <AppenderRef ref="console"/>
             <AppenderRef ref="file"/>
         </Logger>
@@ -56,14 +56,14 @@
         <Logger name="org.springframework.web" level="warn" />
         <Logger name="org.springframework.security" level="warn" />
 
-        <Logger name="perfStatsLogger" level="info" additivity="false">
+        <Logger name="perfStatsLogger" level="warn" additivity="false">
             <AppenderRef ref="perfFileAppender"/>
         </Logger>
 
-        <Logger name="org.jasig.cas.web.flow" level="info" additivity="true">
+        <Logger name="org.jasig.cas.web.flow" level="warn" additivity="true">
             <AppenderRef ref="file"/>
         </Logger>
-        <Logger name="org.jasig.inspektr.audit.support.Slf4jLoggingAuditTrailManager" level="info">
+        <Logger name="org.jasig.inspektr.audit.support.Slf4jLoggingAuditTrailManager" level="warn">
             <AppenderRef ref="file"/>
         </Logger>
         <Root level="error">

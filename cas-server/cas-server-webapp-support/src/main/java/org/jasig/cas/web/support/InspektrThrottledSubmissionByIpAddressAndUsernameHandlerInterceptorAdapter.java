@@ -107,6 +107,11 @@ public class InspektrThrottledSubmissionByIpAddressAndUsernameHandlerInterceptor
     }
 
     @Override
+    protected void removeFailureRecord(HttpServletRequest request) {
+
+    }
+
+    @Override
     protected void recordThrottle(final HttpServletRequest request) {
         super.recordThrottle(request);
         final String userToUse = constructUsername(request, getUsernameParameter());
